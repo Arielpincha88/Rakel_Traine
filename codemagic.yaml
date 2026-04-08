@@ -1,14 +1,21 @@
 workflows:
   android-workflow:
     name: Android Build
-    instance_type: mac_mini_m2
+    max_build_duration: 30
     environment:
       flutter: stable
       xcode: latest
     scripts:
+      - name: Clean project
+        script: flutter clean
       - name: Get packages
         script: flutter pub get
       - name: Build APK
-        script: flutter build apk --release
+        script: |
+          flutter build apk --release
     artifacts:
-      - build/app/outputs/flutter-apk/app-release.apk
+      - build/app/outputs/flutter-apk/*.apk
+    publishing:
+      email:
+        recipients:
+          - tuemail@gmail.com
